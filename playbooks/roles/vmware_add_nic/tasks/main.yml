@@ -1,0 +1,90 @@
+- name: Load govc Vars
+  include_vars: "{{ role_path }}/vars/govc_vars.yml"
+
+- name: Load SSH Connection Vars
+  include_vars: "{{ role_path }}/vars/ssh_connection_vars.yml"
+
+#verify go is installed
+
+#verify govc is installed
+#- name: Check the current govc version (if any)
+#  command: "{{ govc_path }}/govc version"
+#  ignore_errors: yes
+#  register: govc_version_found
+#  delegate_to: localhost
+#  changed_when: false
+
+- name: Get VM Info/State
+  command: "govc vm.info -vm.ip={{ ansible_ssh_host }} -k=true"
+  environment:
+    GOVC_USERNAME: "{{ govc_username }}"
+    GOVC_PASSWORD: "{{ govc_password }}"
+    GOVC_INSECURE: "{{ govc_insecure }}"
+    GOVC_DATASTORE: "{{ govc_datastore}}"
+    GOVC_DATACENTER: "{{ govc_datacenter}}"
+    GOVC_URL: "{{ govc_url }}"
+  register: govc_vm_info
+  changed_when: False
+  delegate_to: localhost
+  failed_when: >
+    ("no such VM" in govc_vm_info.stdout)
+
+
+- name: Add Second NIC to VM
+  command: >
+    govc vm.network.add
+    -vm={{hostname}}
+    -net={{internalNetVlan}}
+    -k=true
+  environment:
+    GOVC_USERNAME: "{{ govc_username }}"
+    GOVC_PASSWORD: "{{ govc_password }}"
+    GOVC_INSECURE: "{{ govc_insecure }}"
+    GOVC_DATASTORE: "{{ govc_datastore}}"
+    GOVC_DATACENTER: "{{ govc_datacenter}}"
+    GOVC_URL: "{{ govc_url }}"
+#  register: govc_net_add
+  changed_when: False
+  delegate_to: localhost
+#  failed_when: >
+#    ("OK" not in govc_net_add.stdout)
+
+- name: Get VM's Devices list & Verify "ethernet-1" Present
+  shell: >
+    govc device.ls
+    -vm={{ hostname }} 
+    -k=true
+    | grep ethernet
+  environment:
+    GOVC_USERNAME: "{{ govc_username }}"
+    GOVC_PASSWORD: "{{ govc_password }}"
+    GOVC_INSECURE: "{{ govc_insecure }}"
+    GOVC_DATASTORE: "{{ govc_datastore}}"
+    GOVC_DATACENTER: "{{ govc_datacenter}}"
+    GOVC_URL: "{{ govc_url }}"
+  register: vm_etherent_devices
+  changed_when: False
+  delegate_to: localhost
+  failed_when: >
+    ("ethernet-1" not in vm_etherent_devices.stdout)
+
+- name: "Set the IP address of the new NIC"
+  template:
+    src: "{{ role_path }}/templates/rhel6-ifcfg-eth1.j2"
+    dest: /etc/sysconfig/network-scripts/ifcfg-eth1
+    owner: root
+    group: root
+    mode: '644'
+  become: true
+  notify: Network Restart
+  
+  
+- name: "Set the VM's Gateway Configuration"
+  template:
+    src: "{{ role_path }}/templates/network.j2"
+    dest: /etc/sysconfig/network
+    owner: root
+    group: root
+    mode: '644'
+  become: true
+  notify: Network Restart

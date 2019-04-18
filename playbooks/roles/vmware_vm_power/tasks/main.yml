@@ -1,0 +1,50 @@
+---
+
+- name: Display Current Host
+  debug:
+    msg: "Current Host is {{ inventory_hostname }} and Hostname is = {{ hostname }}"
+    verbosity: 3
+
+# Supported Power States:     
+#    present
+#    powered_off
+#    absent
+#    powered_on
+#    restarted
+#    reconfigured
+
+- name: VM Power Control
+  block:
+    - vsphere_guest:
+        vcenter_hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_user }}"
+        password: "{{ vcenter_pass }}"
+        guest: "{{ hostname }}"
+        validate_certs: False
+        state: "{{ vm_state }}"
+      delegate_to: localhost
+  #    ignore_errors: yes
+  #    failed_when:
+
+# wait for VM reconfiguration
+    - pause: seconds=30
+
+#    - vmware_guest_tools_wait:
+#        hostname: "{{ vcenter_hostname }}"
+#        username: "{{ vcenter_user }}"
+#        password: "{{ vcenter_pass }}"
+#        name: "{{ hostname }}"
+#        folder: "/{{ vcenter_datacenter }}{{ vcenter_folder_full }}"
+#        validate_certs: False
+#      register: vm_wait_stat
+#      delegate_to: localhost
+#  #    ignore_errors: yes
+#  #    failed_when:
+  
+  rescue:
+    - debug:
+        msg: " VM {{ hostname }} ???"
+        verbosity: 3
+    - meta: end_play
+
+   

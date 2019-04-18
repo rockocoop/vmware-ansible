@@ -1,0 +1,24 @@
+- name: Remove ddns entries | A Record 
+  nsupdate:
+    key_name: "{{ddnskeyname}}"
+    key_secret: "{{ddnssecret}}"
+    server: "{{dns[0]}}"
+    zone: "{{subdomain}}"
+    record: "{{hostvars[item]['hostname']}}"
+    type: "A"
+    state: absent
+  with_items:
+    - "{{ groups['OSEv3'] }}"
+
+- name: Remove ddns entries | DHCID 
+  nsupdate:
+    key_name: "{{ddnskeyname}}"
+    key_secret: "{{ddnssecret}}"
+    server: "{{dns[0]}}"
+    zone: "{{subdomain}}"
+    record: "{{hostvars[item]['hostname']}}"
+    type: "DHCID"
+    state: absent
+  with_items:
+    - "{{ groups['OSEv3'] }}"
+

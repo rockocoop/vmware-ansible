@@ -1,0 +1,8 @@
+
+- name: Remove Hosts listed in Inventory from local known_hosts file
+  known_hosts:
+    path: /root/.ssh/known_hosts
+    name: "{{ ansible_ssh_host }}"
+    state: absent
+  become: true
+  delegate_to: localhost

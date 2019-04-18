@@ -1,0 +1,34 @@
+---
+
+- name: Display Current Host
+  debug:
+    msg: "Current Host is {{ inventory_hostname }} and Hostname is = {{ hostname }}"
+    verbosity: 3
+
+# Supported Power States:     
+#    present
+#    powered_off
+#    absent
+#    powered_on
+#    restarted
+#    reconfigured
+
+- name: VM Power Control
+  block:
+    - vsphere_guest:
+        vcenter_hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_user }}"
+        password: "{{ vcenter_pass }}"
+        guest: "{{ hostname }}"
+        validate_certs: False
+        state: "{{ vm_state }}"
+      delegate_to: localhost
+
+  
+  rescue:
+    - debug:
+        msg: " VM {{ hostname }} ???"
+        verbosity: 3
+    - meta: end_play
+
+   

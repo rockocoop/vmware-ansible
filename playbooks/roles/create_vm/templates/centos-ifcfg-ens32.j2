@@ -1,0 +1,12 @@
+DEVICE=ens32
+BOOTPROTO=dhcp
+ONBOOT=yes
+{% if dns[0]] is defined %}
+DNS1={{ dns[0]] }}
+{% endif %}
+{% if dns[1]] is defined %}
+DNS2={{ dns[1] }}
+{% endif %}
+TYPE=Ethernet
+IPV6INIT=no
+USERCTL=no

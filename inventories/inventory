@@ -1,0 +1,88 @@
+[all:vars]
+cluster_timezone=UTC
+roottemppas=centos
+ddnskeyname="dhcpupdate"
+ddnssecret="rL0vnt/SivX9VYfKE45IuA=="
+subdomain="lttslab.org"
+ntp=["10.56.190.1","10.56.190.2"]
+dns=["10.36.200.201","10.56.190.1"]
+
+################ VMware Connection ######################
+vcenter_hostname=10.57.37.120
+vcenter_user=Administrator@vsphere.local
+vcenter_pass=<passowrd>
+vcenter_datastore=VMGuest4
+vcenter_datacenter=ltts
+vcenter_cluster=Infra
+vcenter_vmtemplate=LTTSIL-CentOS7_4
+vcenter_folder_full=/Infra/
+
+# Create an OSEv3 group that contains the masters and nodes groups
+[OSEv3:children]
+masters
+nodes
+etcd
+lb
+
+
+# Set variables common for all OSEv3 hosts
+[OSEv3:vars]
+debug_level=2
+openshift_deployment_type=openshift-enterprise
+openshift_image_tag=v3.11.88
+openshift_master_cluster_hostname=osm1.dgx.modtest.com
+openshift_master_default_subdomain=dgx.modtest.com
+openshift_master_cluster_public_hostname=osm1.dgx.modtest.com
+openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider'}]
+openshift_master_htpasswd_users={'admin':'$apr1$OgvA4yFC$zae/rd856QRT2IKlnyh2b.'}
+oreg_url=registry.access.redhat.com/openshift3/ose-${component}:${version}
+openshift_install_examples=false
+
+openshift_disable_check=disk_availability,docker_storage,docker_image_availability,package_availability
+
+
+#host group for masters
+[masters]
+osm1 openshift_ip=<ip> hostname=osm1 vlan=vCenter openshift_node_group_name=node-config-master disks=[100,100] 
+osm2 openshift_ip=<ip> hostname=osm2 vlan=vCenter openshift_node_group_name=node-config-master disks=[100,100]
+osm3 openshift_ip=<ip> hostname=osm3 vlan=vCenter openshift_node_group_name=node-config-master disks=[100,100]
+
+[masters:vars]
+
+#host group for minions
+[minions]
+osminion1 openshift_ip=<ip> hostname=osminion1 vlan=vCenter openshift_node_group_name=node-config-infra disks=[100,100]
+osminion2 openshift_ip=<ip> hostname=osminion2 vlan=vCenter openshift_node_group_name=node-config-infra disks=[100,100]
+osminion3 openshift_ip=<ip> hostname=osminion3 vlan=vCenter openshift_node_group_name=node-config-compute disks=[100,100]
+
+[minions:vars]
+#reboot_timeout=<TIMEOUT IN SECONDS>
+
+
+#host group for nodes
+[nodes:children]
+masters
+minions
+
+[nodes:vars]
+pv_device=sdb
+pv_part=1
+vmCPUs=1
+vmMemory=16384
+vmDisk=80
+sdbsize=16
+
+[etcd:children]
+masters
+
+[etcd:vars]
+
+
+[lb]
+oslb1 openshift_ip=oslb1.lttslab.org openshift_public_hostname=oslb1.lttslab.org openshift_hostname=oslb1.lttslab.org hostname=oslb1  ha_status=MASTER vlan=vCenter disks=[]
+
+[lb:vars]
+vmCPUs=1
+vmMemory=2048
+vmDisk=80
+

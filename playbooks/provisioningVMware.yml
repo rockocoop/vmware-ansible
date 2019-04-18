@@ -1,0 +1,23 @@
+---
+
+- hosts: nodes:lb
+  gather_facts: false
+  serial: "100%"
+  roles:
+    - create_vm
+
+- hosts: nodes
+  gather_facts: false
+  serial: "100%"
+  roles:
+    - vmware_add_disk
+
+- hosts: nodes:lb
+  gather_facts: false
+  serial: "100%"
+  tasks:
+  - include_role:
+       name: vm_power
+    vars:
+      vm_state: 'restarted'
+

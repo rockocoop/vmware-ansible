@@ -1,0 +1,15 @@
+DEVICE=eth0
+BOOTPROTO=static
+ONBOOT=yes
+IPADDR={{ ansible_ssh_host }}
+NETMASK={{ netmask }}
+GATEWAY={{ gateway }}
+{% if dns[0]] is defined %}
+DNS1={{ dns[0]] }}
+{% endif %}
+{% if dns[1]] is defined %}
+DNS2={{ dns[1] }}
+{% endif %}
+TYPE=Ethernet
+IPV6INIT=no
+USERCTL=no

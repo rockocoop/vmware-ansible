@@ -1,0 +1,45 @@
+- name: Load govc Vars
+  include_vars: "{{ role_path }}/vars/govc_vars.yml"
+
+#verify go is installed
+
+#verify govc is installed
+#- name: Check the current govc version (if any)
+#  command: "{{ govc_path }}/govc version"
+#  ignore_errors: yes
+#  register: govc_version_found
+#  delegate_to: localhost
+#  changed_when: false
+
+
+- name: Get VM Info/State
+  shell: >
+    govc vm.info -vm.dns={{ hostname }} -k=true
+    | grep UUID | awk '{print $2}'
+  environment:
+    GOVC_USERNAME: "{{ govc_username }}"
+    GOVC_PASSWORD: "{{ govc_password }}"
+    GOVC_INSECURE: "{{ govc_insecure }}"
+    GOVC_DATASTORE: "{{ govc_datastore}}"
+    GOVC_DATACENTER: "{{ govc_datacenter}}"
+    GOVC_URL: "{{ govc_url }}"
+  register: govc_vm_uuid
+  changed_when: False
+  delegate_to: localhost
+  failed_when: False
+  
+- meta: end_play
+  when: >
+      ("no such VM" in govc_vm_uuid.stderr)
+
+- name: Destroy VM
+  command: "govc vm.destroy -vm.uuid={{ govc_vm_uuid.stdout_lines[0] }} -k=true"
+  environment:
+    GOVC_USERNAME: "{{ govc_username }}"
+    GOVC_PASSWORD: "{{ govc_password }}"
+    GOVC_INSECURE: "{{ govc_insecure }}"
+    GOVC_DATASTORE: "{{ govc_datastore}}"
+    GOVC_DATACENTER: "{{ govc_datacenter}}"
+    GOVC_URL: "{{ govc_url }}"
+  delegate_to: localhost
+  failed_when: false
