@@ -15,14 +15,14 @@
   - include_role:
        name: remove_vm
 
-- hosts: nodes:lb
-  gather_facts: false
-  serial: 7
-  tasks:
-  - include_role:
-       name: clear_known_hosts
+#- hosts: nodes:lb
+#  gather_facts: false
+#  serial: 7
+#  tasks:
+#  - include_role:
+#       name: clear_known_hosts
 
-- hosts: localhost
-  gather_facts: false
-  tasks:
-  - include_tasks: "include/removerecordsddns.yml"
+#- hosts: localhost
+#  gather_facts: false
+#  tasks:
+#  - include_tasks: "include/removerecordsddns.yml"
