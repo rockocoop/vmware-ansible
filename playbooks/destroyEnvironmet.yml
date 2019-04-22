@@ -1,13 +1,14 @@
 ---
 
-#- hosts: nodes
-#  gather_facts: false
-#  serial: 1
-#  tasks:
-#  - include_role:
-#       name: vm_power
-#    vars:
-#      vm_state: 'powered_off'
+- hosts: nodes
+  gather_facts: false
+  serial: 1
+  tasks:
+  - include_role:
+       name: vm_power
+    vars:
+      vm_state: 'poweredoff'
+
 - hosts: nodes:lb
   gather_facts: false
   serial: 7

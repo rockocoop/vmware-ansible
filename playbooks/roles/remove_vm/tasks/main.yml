@@ -32,7 +32,6 @@
 #  when: >
 #      ("no such VM" in govc_vm_uuid.stderr)
 
-
 - name: Remove "{{ hostname }}"
   vmware_guest:
     hostname: "{{ vcenter_hostname }}"
