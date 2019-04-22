@@ -1,6 +1,6 @@
 ---
 
-- name: PowerOff "{{ hostname }}"
+- name: "{{vm_state}}" "{{ hostname }}"
   vmware_guest:
     hostname: "{{ vcenter_hostname }}"
     username: "{{ vcenter_user }}"
