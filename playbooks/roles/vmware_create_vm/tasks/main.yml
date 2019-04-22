@@ -47,6 +47,7 @@
           num_cpus: "{{ cpu }}"
         networks:
          - name: "{{ vlan }}"
+           type: static
            ip: "{{ openshift_ip }}"
            netmask: "{{ netmask }}"
            gateway: "{{ gateway }}"
