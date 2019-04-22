@@ -2,7 +2,7 @@
 
 - hosts: nodes:lb
   gather_facts: false
-  serial: 1
+  serial: "100%"
   tasks:
   - include_role:
        name: vm_power
@@ -11,7 +11,7 @@
 
 - hosts: nodes:lb
   gather_facts: false
-  serial: 7
+  serial: "100%"
   tasks:
   - include_role:
        name: vmware_remove_vm
