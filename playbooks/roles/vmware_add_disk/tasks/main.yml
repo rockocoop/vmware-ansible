@@ -31,7 +31,7 @@
   changed_when: False
   delegate_to: localhost
   failed_when: >
-    ("lsilogic-1001" not in govc_scsi_add.stdout)
+    ("lsilogic-100" not in govc_scsi_add.stdout)
   with_items:
     - "{{disks}}"
   loop_control:
