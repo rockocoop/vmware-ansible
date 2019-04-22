@@ -49,7 +49,7 @@
         -name='{{ hostname }}/{{ hostname }}_{{index}}'
         -ds='/{{ vcenter_datacenter }}/datastore/{{ vcenter_datastore }}'
         -mode=independent_persistent 
-        -controller lsilogic-100{{index + 1 }}
+        -controller pvscsi-100{{index + 1 }}
         -eager=false 
         -thick=false
         -size {{ item }}G
