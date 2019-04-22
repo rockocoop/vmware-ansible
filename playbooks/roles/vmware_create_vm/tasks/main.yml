@@ -1,17 +1,6 @@
 ---
 
 
-- name: Display Current Host
-  debug:
-    msg: "Current Host is {{ inventory_openshift_hostname }} and Hostname is = {{ openshift_hostname }}"
-    verbosity: 3
-
-- name: Display Group Vars
-  debug:
-    msg: " Disk={{ vmDisk }}; Memory={{ vmMemory }}; CPU= {{ vmCPUs }} "
-    verbosity: 3
-  failed_when: False
-
 - name: Abort Play when IP is in use
   command: ping -c1 {{ openshift_ip }}
   delegate_to: localhost
