@@ -47,7 +47,7 @@
           num_cpus: "{{ cpu }}"
         networks:
          - name: "{{ vlan }}"
-           ip: "{{ openshift_ip }}"
+           ip: "{{ ansible_ssh_host }}"
            netmask: "{{ netmask }}"
            gateway: "{{ gateway }}"
         customization:
@@ -69,4 +69,4 @@
 
 - name: New VM Status Message
   debug:
-    msg: " New VM {{ hostname }}, {{ openshift_ip }}, is Up and Running"
+    msg: " New VM {{ hostname }}, {{ ansible_ssh_host }}, is Up and Running"
