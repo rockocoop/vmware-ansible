@@ -1,0 +1,73 @@
+---
+
+- name: Load govc Vars
+  include_vars: "{{ role_path }}/vars/govc_vars.yml"
+
+- name: Get VM Info/State
+  command: "govc vm.info -vm.ip={{ ansible_ssh_host }} -k=true"
+  environment:
+    GOVC_USERNAME: "{{ govc_username }}"
+    GOVC_PASSWORD: "{{ govc_password }}"
+    GOVC_INSECURE: "{{ govc_insecure }}"
+    GOVC_DATASTORE: "{{ govc_datastore}}"
+    GOVC_DATACENTER: "{{ govc_datacenter}}"
+    GOVC_URL: "{{ govc_url }}"
+  register: govc_vm_info
+  changed_when: False
+  delegate_to: localhost
+  failed_when: >
+    ("no such VM" in govc_vm_info.stdout)
+
+- name: Add SCSI to existing VM
+  command: "govc device.scsi.add -vm={{ hostname }} -type=lsilogic -k=true"
+  environment:
+    GOVC_USERNAME: "{{ govc_username }}"
+    GOVC_PASSWORD: "{{ govc_password }}"
+    GOVC_INSECURE: "{{ govc_insecure }}"
+    GOVC_DATASTORE: "{{ govc_datastore}}"
+    GOVC_DATACENTER: "{{ govc_datacenter}}"
+    GOVC_URL: "{{ govc_url }}"
+  register: govc_scsi_add
+  changed_when: False
+  delegate_to: localhost
+  failed_when: >
+    ("lsilogic-100" not in govc_scsi_add.stdout)
+  with_items:
+    - "{{disks}}"
+  loop_control:
+    loop_var: scsi
+
+- name: wait for reconfiguration
+  pause: seconds=10
+
+- name: Add Docker Disks to VM
+  block:
+  #  Add /dev/sdb Disk to existing VM
+    - command: >
+        govc vm.disk.create 
+        -vm={{ hostname }} 
+        -name='{{ hostname }}/{{ hostname }}_{{index}}'
+        -ds='/{{ vcenter_datacenter }}/datastore/{{ vcenter_datastore }}'
+        -mode=independent_persistent 
+        -controller lsilogic-1001 
+        -eager=false 
+        -thick=false
+        -size {{ item }}G
+        -k=true
+      environment:
+        GOVC_USERNAME: "{{ govc_username }}"
+        GOVC_PASSWORD: "{{ govc_password }}"
+        GOVC_INSECURE: "{{ govc_insecure }}"
+        GOVC_DATASTORE: "{{ govc_datastore}}"
+        GOVC_DATACENTER: "{{ govc_datacenter}}"
+        GOVC_URL: "{{ govc_url }}"
+      register: govc_sdb_add
+      changed_when: False
+      delegate_to: localhost
+      failed_when: >
+        ("Creating disk" not in govc_sdb_add.stdout)
+      with_items:
+        - "{{disks}}"
+      loop_control:
+        index_var: index
+
