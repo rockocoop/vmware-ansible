@@ -1,5 +1,22 @@
 ---
 
+- name: Abort Play when IP is in use
+  command: ping -c1 {{ ansible_ssh_host }}
+  delegate_to: localhost
+  register: ping_result
+  failed_when: >
+    ("" not in ping_result.stderr)
+  changed_when: False
+  
+- meta: end_play
+  when: ping_result.rc==0
+
+
+- name:
+  debug:
+    msg: " IP Address {{ ansible_ssh_host }} is free"
+    verbosity: 3
+  when: ping_result.rc==1
 
 - name: Creat a new VM
   block:
@@ -30,20 +47,16 @@
           num_cpus: "{{ cpu }}"
         networks:
          - name: "{{ vlan }}"
-           type: static
            ip: "{{ openshift_ip }}"
            netmask: "{{ netmask }}"
            gateway: "{{ gateway }}"
-           start_connected: True
         customization:
-          hostname: "{{ hostname }}"
           dns_servers:
           - "{{ dns[0] }}"
           - "{{ dns[1] }}"
-        wait_for_ip_address: no
+        wait_for_ip_address: yes
       register: new_vm
       delegate_to: localhost
-  #    ignore_errors: yes
       failed_when: >
         (new_vm.failed==true)
   rescue:
@@ -56,5 +69,4 @@
 
 - name: New VM Status Message
   debug:
-    msg: " New VM {{ hostname }}, {{ ansible_ssh_host }}, is Up and Running"
-  #  verbosity: 1
+    msg: " New VM {{ hostname }}, {{ openshift_ip }}, is Up and Running"
