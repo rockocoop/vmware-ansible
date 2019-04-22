@@ -14,8 +14,8 @@
         type: thin
         datastore: "{{vcenter_datastore}}"
         state: present
-        scsi_controller: {{index}}+1
-        unit_number: {{index}}+11
+        scsi_controller: "{{index +1}}"
+        unit_number: "{{index + 1}}"
         scsi_type: 'paravirtual'
   delegate_to: localhost
   register: disk_facts
