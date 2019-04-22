@@ -32,14 +32,27 @@
   when: >
       ("no such VM" in govc_vm_uuid.stderr)
 
-- name: Destroy VM
-  command: "govc vm.destroy -vm.uuid={{ govc_vm_uuid.stdout_lines[0] }} -k=true"
-  environment:
-    GOVC_USERNAME: "{{ govc_username }}"
-    GOVC_PASSWORD: "{{ govc_password }}"
-    GOVC_INSECURE: "{{ govc_insecure }}"
-    GOVC_DATASTORE: "{{ govc_datastore}}"
-    GOVC_DATACENTER: "{{ govc_datacenter}}"
-    GOVC_URL: "{{ govc_url }}"
+
+- name: Remove "{{ hostname }}"
+  vmware_guest:
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_user }}"
+    password: "{{ vcenter_pass }}"
+    validate_certs: no
+    cluster: "{{ vcenter_cluster }}"
+    name: "{{ hostname }}"
+    state: absent
   delegate_to: localhost
-  failed_when: false
+  register: facts
+
+#- name: Destroy VM
+#  command: "govc vm.destroy -vm.uuid={{ govc_vm_uuid.stdout_lines[0] }} -k=true"
+#  environment:
+#    GOVC_USERNAME: "{{ govc_username }}"
+#    GOVC_PASSWORD: "{{ govc_password }}"
+#    GOVC_INSECURE: "{{ govc_insecure }}"
+#    GOVC_DATASTORE: "{{ govc_datastore}}"
+#    GOVC_DATACENTER: "{{ govc_datacenter}}"
+#    GOVC_URL: "{{ govc_url }}"
+#  delegate_to: localhost
+ # failed_when: false

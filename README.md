@@ -4,6 +4,8 @@ https://prefetch.net/blog/2017/12/19/managing-vsphere-from-the-linux-command-lin
 
 also the following:
 
-pip install python2-pip
+https://access.redhat.com/solutions/1519803
+
+pip install python27-python-pip
 
 pip install pysphere
