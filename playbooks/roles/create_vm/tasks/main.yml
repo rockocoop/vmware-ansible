@@ -30,7 +30,11 @@
           num_cpus: "{{ cpu }}"
         networks:
          - name: "{{ vlan }}"
-           type: dhcp
+           type: static
+           ip: "{{ openshift_ip }}"
+           netmask: "{{ netmask }}"
+           gateway: "{{ gateway }}"
+           start_connected: True
         customization:
           hostname: "{{ hostname }}"
           dns_servers:

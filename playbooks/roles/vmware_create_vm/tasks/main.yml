@@ -26,11 +26,11 @@
         cpu: "{{ vmCPUs }}"
       
     - vmware_guest:
-        openshift_hostname: "{{ vcenter_openshift_hostname }}"
+        hostname: "{{ vcenter_hostname }}"
         username: "{{ vcenter_user }}"
         password: "{{ vcenter_pass }}"
         datacenter: "{{ vcenter_datacenter }}"
-        name: "{{ openshift_hostname }}"
+        name: "{{ hostname }}"
         template: "{{ vcenter_vmtemplate }}"
         resource_pool: "{{ vcenter_resource_pool | default(omit) }}"
         cluster: "{{ vcenter_cluster }}"
@@ -61,7 +61,7 @@
         (new_vm.failed==true)
   rescue:
     - debug:
-        msg: " VM {{ openshift_hostname }} already Exists"
+        msg: " VM {{ hostname }} already Exists"
         verbosity: 3
     - meta: end_play
 
@@ -69,4 +69,4 @@
 
 - name: New VM Status Message
   debug:
-    msg: " New VM {{ openshift_hostname }}, {{ openshift_ip }}, is Up and Running"
+    msg: " New VM {{ hostname }}, {{ openshift_ip }}, is Up and Running"
