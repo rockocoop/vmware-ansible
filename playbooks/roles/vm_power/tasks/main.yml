@@ -1,6 +1,6 @@
 ---
 
-- name: "{{vm_state}}" "{{ hostname }}"
+- name: Power Control 
   vmware_guest:
     hostname: "{{ vcenter_hostname }}"
     username: "{{ vcenter_user }}"
