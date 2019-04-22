@@ -1,6 +1,0 @@
----
-
-ansible_user: 'root'
-ansible_private_key_file: '~/.ssh/ltts-il-bite.pem'
-ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
-ansible_ssh_pass: "{{ roottemppas }}"

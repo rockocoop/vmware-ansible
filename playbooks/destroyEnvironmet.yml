@@ -14,7 +14,7 @@
   serial: 7
   tasks:
   - include_role:
-       name: remove_vm
+       name: vmware_remove_vm
 
 #- hosts: nodes:lb
 #  gather_facts: false

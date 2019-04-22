@@ -4,7 +4,7 @@
   gather_facts: false
   serial: "100%"
   roles:
-    - create_vm
+    - vmware_create_vm
 
 - hosts: nodes
   gather_facts: false
