@@ -1,12 +1,5 @@
 ---
 
-#- name: Load Vsphere Vars
-#  include_vars: "{{ role_path }}/vars/vsphere_vars.yml"
-
-#- name: Display New SSH Vars
-#  debug:
-#    msg: "SSH Vars user={{ ansible_ssh_user }}, pass= {{ ansible_ssh_pass }}, and Keyfile = {{ ansible_ssh_private_key_file}}"
-#    verbosity: 3
 
 - name: Display Current Host
   debug:
@@ -19,21 +12,6 @@
     verbosity: 3
   failed_when: False
 
-
-#- name: Check if IP is free
-#  command: ping -c1 {{ openshift_ip }}
-#  delegate_to: localhost
-#  register: ping_result
-#  ignore_errors: yes
-
-#- name: Abort Play when IP is in use
-#  command: ping -c1 {{ openshift_ip }}
-#  delegate_to: localhost
-#  register: ping_result
-#  failed_when: >
-#    ping_result|success
-#  changed_when: "ping_result|failed"
-
 - name: Abort Play when IP is in use
   command: ping -c1 {{ openshift_ip }}
   delegate_to: localhost
@@ -44,7 +22,6 @@
   
 - meta: end_play
   when: ping_result.rc==0
-
 
 - name:
   debug:
