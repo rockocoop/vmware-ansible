@@ -10,3 +10,6 @@
     name: "{{ hostname }}"
     state: "{{ vm_state }}"
   delegate_to: localhost
+
+- pause: seconds=30
+
