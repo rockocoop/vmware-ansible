@@ -8,6 +8,7 @@
     validate_certs: no
     cluster: "{{ vcenter_cluster }}"
     folder: "{{ vcenter_folder_full }}"
+    datacenter: "{{ vcenter_datacenter }}"
     name: "{{ hostname }}"
     state: "{{ vm_state }}"
   delegate_to: localhost
