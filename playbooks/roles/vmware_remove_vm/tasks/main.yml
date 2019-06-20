@@ -8,6 +8,7 @@
     password: "{{ vcenter_pass }}"
     validate_certs: no
     cluster: "{{ vcenter_cluster }}"
+    folder: "{{ vcenter_folder_full }}"
     name: "{{ hostname }}"
     state: absent
   delegate_to: localhost
