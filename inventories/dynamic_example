@@ -1,0 +1,320 @@
+{
+    "masters": {
+        "hosts": [
+            "ocpmas2.ocp1.zayadtest.com",
+            "ocpmas1.ocp1.zayadtest.com",
+            "ocpmas3.ocp1.zayadteest.com"
+        ],
+        "children": [],
+        "vars": {}
+    },
+    "lb": {
+        "hosts": [
+            "ocplb1.ocp1.zayadtest.com",
+            "ocplb2.ocp1.zayadtest.com"
+        ],
+        "children": [],
+        "vars": {
+            "vmMemory": 4096,
+            "vmCPUs": 2,
+            "vmDisk": 40
+        }
+    },
+    "_meta": {
+        "hostvars": {
+            "ocpnode2.ocp1.zayadtest.com": {
+                "disks": [
+                    30,
+                    100
+                ],
+                "vlan": "VM Network",
+                "openshift_node_group_name": "node-config-infra",
+                "gateway": "10.35.76.254",
+                "ansible_ssh_host": "10.35.76.205",
+                "netmask": "255.255.255.128",
+                "glusterfs_ip": "10.35.76.205",
+                "glusterfs_devices": [
+                    "/dev/sdc"
+                ],
+                "openshift_node_problem_detector_install": true,
+                "hostname": "ocpnode2.ocp1.zayadtest.com"
+            },
+            "ocpnode1.ocp1.zayadtest.com": {
+                "disks": [
+                    30,
+                    100
+                ],
+                "vlan": "VM Network",
+                "openshift_node_group_name": "node-config-infra",
+                "gateway": "10.35.76.254",
+                "ansible_ssh_host": "10.35.76.204",
+                "netmask": "255.255.255.128",
+                "glusterfs_ip": "10.35.76.204",
+                "glusterfs_devices": [
+                    "/dev/sdc"
+                ],
+                "openshift_node_problem_detector_install": true,
+                "hostname": "ocpnode1.ocp1.zayadtest.com"
+            },
+            "ocplb1.ocp1.zayadtest.com": {
+                "ansible_ssh_host": "10.35.76.207",
+                "netmask": "255.255.255.128",
+                "hostname": "ocplb1.ocp1.zayadtest.com",
+                "gateway": "10.35.76.254",
+                "vlan": "VM Network"
+            },
+            "ocpnode3.ocp1.zayadtest.com": {
+                "disks": [
+                    30,
+                    100
+                ],
+                "vlan": "VM Network",
+                "openshift_node_group_name": "node-config-infra",
+                "gateway": "10.35.76.254",
+                "ansible_ssh_host": "10.35.76.206",
+                "netmask": "255.255.255.128",
+                "glusterfs_ip": "10.35.76.206",
+                "glusterfs_devices": [
+                    "/dev/sdc"
+                ],
+                "openshift_node_problem_detector_install": true,
+                "hostname": "ocpnode3.ocp1.zayadtest.com"
+            },
+            "ocpmas3.ocp1.zayadteest.com": {
+                "disks": [
+                    30,
+                    100
+                ],
+                "vlan": "VM Network",
+                "openshift_node_group_name": "node-config-master",
+                "gateway": "10.35.76.254",
+                "ansible_ssh_host": "10.35.76.203",
+                "netmask": "255.255.255.128",
+                "openshift_node_problem_detector_install": true,
+                "hostname": "ocpmas3.ocp1.zayadtest.com"
+            },
+            "ocpmas2.ocp1.zayadtest.com": {
+                "disks": [
+                    30,
+                    100
+                ],
+                "vlan": "VM Network",
+                "openshift_node_group_name": "node-config-master",
+                "gateway": "10.35.76.254",
+                "ansible_ssh_host": "10.35.76.202",
+                "netmask": "255.255.255.128",
+                "openshift_node_problem_detector_install": true,
+                "hostname": "ocpmas2.ocp1.zayadtest.com"
+            },
+            "ocpmas1.ocp1.zayadtest.com": {
+                "disks": [
+                    30,
+                    100
+                ],
+                "vlan": "VM Network",
+                "openshift_node_group_name": "node-config-master",
+                "gateway": "10.35.76.254",
+                "ansible_ssh_host": "10.35.76.201",
+                "netmask": "255.255.255.128",
+                "openshift_node_problem_detector_install": true,
+                "hostname": "ocpmas1.ocp1.zayadtest.com"
+            },
+            "ocplb2.ocp1.zayadtest.com": {
+                "ansible_ssh_host": "10.35.76.208",
+                "netmask": "255.255.255.128",
+                "hostname": "ocplb2.ocp1.zayadtest.com",
+                "gateway": "10.35.76.254",
+                "vlan": "VM Network"
+            }
+        }
+    },
+    "all": {
+        "hosts": [],
+        "vars": {
+            "vcenter_folder_full": "/Cluster1/OCP1/",
+            "keepalived_interface": "ens192",
+            "grafmas": "ocpmas1.ocp1.zayadtest.com",
+            "prometheusURL": "https://prometheus-k8s-openshift-monitoring.apps.openshift.ocp1.zayadtest.com",
+            "grafanaPass": "Password@123",
+            "vcenter_cluster": "Cluster1",
+            "ansible_ssh_common_args": "-o StrictHostKeyChecking=no -o ControlMaster=auto -o ControlPersist=60s -o PreferredAuthentications=publickey",
+            "searchdomain": "ocp1.zayadtest.com",
+            "grafanaURL": "http://10.35.76.246:3000",
+            "cluster_timezone": "UTC",
+            "vcenter_user": "Administrator@vsphere.local",
+            "dns": [
+                "10.35.76.249",
+                "8.8.8.8"
+            ],
+            "localregistry": "10.35.76.249:5000",
+            "openshift_docker_blocked_registries": "registry.access.redhat.com,docker.io",
+            "routervialb": true,
+            "ansible_become": false,
+            "openshift_console_api": "openshift.ocp1.zayadtest.com:8443",
+            "repoName": "vmware-ansible",
+            "projectName": "flintstones",
+            "vcenter_datastore": "datastore2",
+            "keepalived_vip": "10.35.76.209",
+            "keepalived_vrrpid": 1,
+            "grafanaClusterName": "OCP1",
+            "vcenter_hostname": "10.35.76.242",
+            "ocpappsdomain": "apps.openshift.ocp1.zayadtest.com",
+            "dynamicinvfile": "newnodesinv.ini",
+            "openshift_docker_insecure_registries": "10.35.76.249:5000",
+            "yumrepo_url": "10.35.76.249/ocprepo",
+            "vcenter_datacenter": "Datacenter1",
+            "gitlabUrl": "github.com/rockocoop",
+            "vcenter_vmtemplate": "rhel76nokey",
+            "vcenter_pass": "Password@123",
+            "testproject": "scoobydoo",
+            "roottemppas": "Password@123"
+        }
+    },
+    "glusterfs": {
+        "hosts": [
+            "ocpnode1.ocp1.zayadtest.com",
+            "ocpnode2.ocp1.zayadtest.com",
+            "ocpnode3.ocp1.zayadtest.com"
+        ],
+        "children": [],
+        "vars": {}
+    },
+    "etcd": {
+        "hosts": [],
+        "children": [
+            "masters"
+        ],
+        "vars": {
+            "pv_etcd": "sdc"
+        }
+    },
+    "OSEv3": {
+        "hosts": [
+            "ocpmas1.ocp1.zayadtest.com",
+            "ocpmas2.ocp1.zayadtest.com",
+            "ocpmas3.ocp1.zayadteest.com",
+            "ocpnode1.ocp1.zayadtest.com",
+            "ocpnode2.ocp1.zayadtest.com",
+            "ocpnode3.ocp1.zayadtest.com"
+        ],
+        "children": [
+            "etcd",
+            "masters",
+            "new_nodes",
+            "lb",
+            "nodes",
+            "glusterfs"
+        ],
+        "vars": {
+            "openshift_master_default_subdomain": "apps.openshift.ocp1.zayadtest.com",
+            "openshift_metrics_storage_kind": "dynamic",
+            "openshift_metrics_install_metrics": true,
+            "openshift_cluster_monitoring_operator_install": true,
+            "openshift_cluster_monitoring_operator_alertmanager_storage_enabled": true,
+            "debug_level": 2,
+            "oreg_url": "10.35.76.249:5000/openshift3/ose-${component}:${version}",
+            "openshift_master_dynamic_provisioning_enabled": true,
+            "openshift_prometheus_alertbuffer_storage_type": "pvc",
+            "openshift_examples_modify_imagestreams": true,
+            "openshift_node_groups": [
+                {
+                    "labels": [
+                        "node-role.kubernetes.io/master=true",
+                        "runtime=docker"
+                    ],
+                    "name": "node-config-master"
+                },
+                {
+                    "labels": [
+                        "node-role.kubernetes.io/infra=true",
+                        "runtime=cri-o",
+                        "logging-infra=elasticsearch"
+                    ],
+                    "name": "node-config-infra"
+                },
+                {
+                    "edits": [
+                        {
+                            "key": "kubeletArguments.pods-per-core",
+                            "value": [
+                                "20"
+                            ]
+                        }
+                    ],
+                    "labels": [
+                        "node-role.kubernetes.io/compute=true",
+                        "runtime=docker"
+                    ],
+                    "name": "node-config-compute"
+                }
+            ],
+            "openshift_master_cluster_public_hostname": "openshift.ocp1.zayadtest.com",
+            "openshift_prometheus_alertbuffer_pvc_size": "10Gi",
+            "openshift_hosted_registry_storage_volume_size": "10Gi",
+            "openshift_cluster_monitoring_operator_prometheus_storage_capacity": "50Gi",
+            "openshift_prometheus_storage_kind": "dynamic",
+            "openshift_metrics_cassandra_storage_type": "dynamic",
+            "openshift_enable_service_catalog": false,
+            "openshift_logging_es_memory_limit": "4Gi",
+            "openshift_logging_es_nodeselector": {
+                "node-role.kubernetes.io/infra": "true"
+            },
+            "openshift_prometheus_pvc_access_modes": [
+                "ReadWriteOnce"
+            ],
+            "openshift_logging_install_logging": true,
+            "openshift_master_cluster_hostname": "openshift.ocp1.zayadtest.com",
+            "openshift_logging_storage_access_modes": [
+                "ReadWriteOnce"
+            ],
+            "openshift_image_tag": "v3.11.98",
+            "ansible_become": true,
+            "openshift_logging_es_pvc_dynamic": true,
+            "openshift_pkg_version": "-3.11.98",
+            "openshift_hosted_registry_storage_access_modes": [
+                "ReadWriteOnce"
+            ],
+            "openshift_disable_check": "memory_availability,disk_availability",
+            "openshift_logging_storage_kind": "dynamic",
+            "openshift_deployment_type": "openshift-enterprise",
+            "openshift_hosted_manage_registry": true,
+            "openshift_prometheus_alertmanager_storage_kind": "dynamic",
+            "ansible_ssh_user": "root",
+            "openshift_cluster_monitoring_operator_alertmanager_storage_capacity": "2Gi",
+            "openshift_master_identity_providers": [
+                {
+                    "challenge": "true",
+                    "login": "true",
+                    "kind": "HTPasswdPasswordIdentityProvider",
+                    "name": "htpasswd_auth"
+                }
+            ],
+            "openshift_cluster_monitoring_operator_prometheus_storage_enabled": true,
+            "os_firewall_use_firewalld": true,
+            "openshift_metrics_cassandra_pvc_size": "15Gi",
+            "openshift_prometheus_alertbuffer_storage_kind": "dynamic",
+            "openshift_hosted_registry_storage_kind": "dynamic",
+            "openshift_logging_es_pvc_size": "20Gi",
+            "openshift_master_htpasswd_users": {
+                "admin": "$apr1$udcx1.9E$XZmOZkWhIRa5lzxIcBOxz1"
+            }
+        }
+    },
+    "nodes": {
+        "hosts": [
+            "ocpmas3.ocp1.zayadteest.com",
+            "ocpmas2.ocp1.zayadtest.com",
+            "ocpmas1.ocp1.zayadtest.com",
+            "ocpnode1.ocp1.zayadtest.com",
+            "ocpnode2.ocp1.zayadtest.com",
+            "ocpnode3.ocp1.zayadtest.com"
+        ],
+        "children": [],
+        "vars": {
+            "vmMemory": 16384,
+            "vmCPUs": 4,
+            "vmDisk": 40,
+            "pv_device": "sdb"
+        }
+    }
+}
